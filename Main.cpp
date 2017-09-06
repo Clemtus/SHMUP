@@ -43,11 +43,11 @@ int main(int argc, char *argv[]) {
 		window.draw(game.GetVaisseau()->GetSprite());
 
 			// DESSINE LES PROJECTILES
-		/*for (vector<Projectile*>::iterator it = game.GetProjectileBoard().begin();
-			it < game.GetProjectileBoard().end();
+		for (vector<Projectile*>::iterator it = game.GetProjectileBoard().begin();
+			it != game.GetProjectileBoard().end();
 			it++) {
 			window.draw((*it)->GetSprite());
-		}*/
+		}
 
 		window.display();
 		window.clear();

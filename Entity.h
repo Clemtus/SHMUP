@@ -15,6 +15,7 @@ protected:
 	Sprite _sprite;
 
 public:
+	/* START GETTER / SETTER */
 	Texture GetTexture();
 	void SetTexture(Texture texture);
 
@@ -22,5 +23,6 @@ public:
 
 	float GetSpeed();
 	void SetSpeed(float speed);
+	/* END GETTER / SETTER */
 };
 

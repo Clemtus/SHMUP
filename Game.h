@@ -18,7 +18,8 @@ private:
 
 public:
 	Game(float screenW, float screenH);
-
+	
+	/* START GETTER / SETTER */
 	Spatialship* GetVaisseau();
 	void SetVaisseau(Spatialship *vso);
 	
@@ -27,6 +28,8 @@ public:
 
 	vector<Projectile*> GetProjectileBoard();
 	void AddProjectileBoard(Projectile* projectile);
+	/* END GETTER / SETTER */
+
 
 	// GESTION DU CLAVIER
 	void KB_Management(float screenW);

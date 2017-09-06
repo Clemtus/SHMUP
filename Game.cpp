@@ -2,6 +2,7 @@
 
 #pragma region constante
 const int DELAY_MISSILE_VSO = 300;
+const string TEXTURE_PROJECTILE_SPATIALSHIP = "sprite/ProjectileVso.png";
 #pragma endregion constante
 
 Game::Game(float screenW, float screenH)
@@ -55,9 +56,11 @@ void Game::KB_Management(float screenW)
 	}
 	else if (Keyboard::isKeyPressed(Keyboard::Space)) {
 		if (_pTimeVaisseau.getElapsedTime().asMilliseconds() >= DELAY_MISSILE_VSO) {
-			class Projectile *project = _vaisseau->Spatialship_Create_Projectile();
+			class Projectile *project = new Projectile(TEXTURE_PROJECTILE_SPATIALSHIP);
+			project = project->Create_Projectile_Vaisseau(GetVaisseau(), project);
 			AddProjectileBoard(project);
 			_pTimeVaisseau.restart();
+			cout << "TEST AJOUT MISSILE" << endl;
 		}
 	}
 }

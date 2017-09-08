@@ -1,6 +1,6 @@
 #pragma once
 
-typedef enum DirectionEnum {
+typedef enum {
 	LEFT = -1,
 	RIGHT = 1
-};
+} DirectionEnum;

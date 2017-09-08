@@ -1,22 +1,16 @@
 #include "Projectile.h"
 
-
-Projectile::Projectile(string Texture)
+Projectile::Projectile(Spatialship *vaisseau, string Texture)
 {
+	int posX = (vaisseau->GetSprite().getPosition().x) + (vaisseau->GetTexture().getSize().x - _texture.getSize().x) / 2;
+	int posY = vaisseau->GetSprite().getPosition().y - vaisseau->GetTexture().getSize().y / 2;
+
 	_texture.loadFromFile(Texture);
 	_sprite.setTexture(_texture);
+	_sprite.setPosition(posX, posY);
 }
 
-Projectile* Projectile::Create_Projectile_Vaisseau(Spatialship *vaisseau, Projectile *projectile)
-{
-	int posX = (vaisseau->GetSprite().getPosition().x) + (vaisseau->GetTexture().getSize().x / 2) - (projectile->GetTexture().getSize().x / 2);
-	int posY = vaisseau->GetSprite().getPosition().y;
-	projectile->GetSprite().setPosition(posX, posY);
-
-	return projectile;
-}
-
-void Projectile::Projectile_Deplacement()
+void Projectile::Projectile_Deplacement(float delta)
 {
 }
 

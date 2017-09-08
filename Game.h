@@ -1,4 +1,5 @@
 #pragma once
+
 #include <vector>
 
 #include "Spatialship.h"
@@ -12,8 +13,8 @@ class Game
 {
 private:
 	Spatialship *_vaisseau;
-	vector<Projectile*> _projectileBoard;
-	vector<Enemy*> _enemyBoard;
+	vector<Projectile> _projectileBoard;
+	vector<Enemy> _enemyBoard;
 	Clock _pTimeVaisseau;
 
 public:
@@ -23,10 +24,10 @@ public:
 	Spatialship* GetVaisseau();
 	void SetVaisseau(Spatialship *vso);
 	
-	vector<Enemy*> GetEnemyBoard();
+	vector<Enemy> GetEnemyBoard();
 	void AddEnemyBoard(Enemy* ennemi);
 
-	vector<Projectile*> GetProjectileBoard();
+	vector<Projectile> GetProjectileBoard();
 	void AddProjectileBoard(Projectile* projectile);
 	/* END GETTER / SETTER */
 
@@ -34,4 +35,3 @@ public:
 	// GESTION DU CLAVIER
 	void KB_Management(float screenW);
 };
-

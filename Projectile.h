@@ -9,7 +9,7 @@ private:
 	bool _touch;
 	int _direction;
 public:
-	Projectile(string Texture);
+	Projectile(Spatialship *vaisseau, string Texture);
 
 	/* START GETTER / SETTER */
 	bool GetTouch();
@@ -19,7 +19,6 @@ public:
 	void SetDirection(int direction);
 	/* END GETTER / SETTER */
 
-	Projectile* Create_Projectile_Vaisseau(Spatialship* vaisseau, Projectile *projectile);
-	void Projectile_Deplacement();
+	void Projectile_Deplacement(float delta);
 };
 

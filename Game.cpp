@@ -1,9 +1,7 @@
 #include "Game.h"
 
-#pragma region constante
 const int DELAY_MISSILE_VSO = 300;
 const string TEXTURE_PROJECTILE_SPATIALSHIP = "sprite/ProjectileVso.png";
-#pragma endregion constante
 
 Game::Game(float screenW, float screenH)
 {
@@ -20,24 +18,24 @@ void Game::SetVaisseau(Spatialship * vso)
 	_vaisseau = vso;
 }
 
-vector<Enemy*> Game::GetEnemyBoard()
+vector<Enemy> Game::GetEnemyBoard()
 {
 	return _enemyBoard;
 }
 
 void Game::AddEnemyBoard(Enemy* ennemi)
 {
-	_enemyBoard.push_back(ennemi);
+	_enemyBoard.push_back(*ennemi);
 }
 
-vector<Projectile*> Game::GetProjectileBoard()
+vector<Projectile> Game::GetProjectileBoard()
 {
 	return _projectileBoard;
 }
 
 void Game::AddProjectileBoard(Projectile*  projectile)
 {
-	_projectileBoard.push_back(projectile);
+	_projectileBoard.push_back(*projectile);
 }
 
 
@@ -56,11 +54,10 @@ void Game::KB_Management(float screenW)
 	}
 	else if (Keyboard::isKeyPressed(Keyboard::Space)) {
 		if (_pTimeVaisseau.getElapsedTime().asMilliseconds() >= DELAY_MISSILE_VSO) {
-			class Projectile *project = new Projectile(TEXTURE_PROJECTILE_SPATIALSHIP);
-			project = project->Create_Projectile_Vaisseau(GetVaisseau(), project);
+			class Projectile *project = new Projectile(GetVaisseau(), TEXTURE_PROJECTILE_SPATIALSHIP);
+
 			AddProjectileBoard(project);
 			_pTimeVaisseau.restart();
-			cout << "TEST AJOUT MISSILE" << endl;
 		}
 	}
 }

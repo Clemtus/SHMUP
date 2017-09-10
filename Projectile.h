@@ -1,6 +1,9 @@
 #pragma once
 #include "Entity.h"
-#include "Spatialship.h"
+#include "Vehicle.h"
+#include "Enumeration.h"
+
+
 
 class Projectile :
 	public Entity
@@ -8,8 +11,9 @@ class Projectile :
 private:
 	bool _touch;
 	int _direction;
+
 public:
-	Projectile(Spatialship *vaisseau, string Texture);
+	Projectile(Vehicle *vehicle, string Texture, DirectionEnumProjectile Direction);
 
 	/* START GETTER / SETTER */
 	bool GetTouch();
@@ -19,6 +23,6 @@ public:
 	void SetDirection(int direction);
 	/* END GETTER / SETTER */
 
-	void Projectile_Deplacement(float delta);
+	void Projectile_Deplacement();
 };
 

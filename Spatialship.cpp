@@ -8,11 +8,13 @@ Spatialship::Spatialship(float screenW, float screenH)
 	_sprite.setPosition((screenW / 2) - (_texture.getSize().x / 2), screenH - _texture.getSize().y);
 
 	// CARACTERISTIQUES
-	SetHealth(5);
-	SetSpeed(4.5);
+	SetHealth(health);
+	SetSpeed(speed);
+	SetSpeedProjectile(speedProjectile);
+	
 }
 
-void Spatialship::Vaisseau_Deplacement(DirectionEnum Direction)
+void Spatialship::Vaisseau_Deplacement(DirectionEnumKB Direction)
 {
 	_sprite.move(GetSpeed() * Direction, 0);
 }

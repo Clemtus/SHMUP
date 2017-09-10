@@ -7,7 +7,12 @@ int Vehicle::GetHealth()
 
 void Vehicle::SetHealth(int health)
 {
-	_health = health;
+	_health= health;
+}
+
+void Vehicle::Taking_Damage(int damage)
+{
+	_health -= damage;
 }
 
 int Vehicle::GetDamage()
@@ -18,4 +23,14 @@ int Vehicle::GetDamage()
 void Vehicle::setDamage(int damage)
 {
 	_damage = damage;
+}
+
+float Vehicle::GetSpeedProjectile()
+{
+	return _speedProjectile;
+}
+
+void Vehicle::SetSpeedProjectile(float speed)
+{
+	_speedProjectile = speed;
 }

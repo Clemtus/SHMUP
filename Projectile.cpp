@@ -1,17 +1,32 @@
 #include "Projectile.h"
 
-Projectile::Projectile(Spatialship *vaisseau, string Texture)
+Projectile::Projectile(Vehicle *vehicle, string Texture, DirectionEnumProjectile Direction)
 {
-	int posX = (vaisseau->GetSprite().getPosition().x) + (vaisseau->GetTexture().getSize().x - _texture.getSize().x) / 2;
-	int posY = vaisseau->GetSprite().getPosition().y - vaisseau->GetTexture().getSize().y / 2;
-
+	_direction = Direction;
+	_touch = false;
+	SetSpeed(vehicle->GetSpeedProjectile());
+	
+	float posX = (vehicle->GetSprite().getPosition().x) + (vehicle->GetTexture().getSize().x - _texture.getSize().x) / 2;
+	float posY;
+	if (Direction == TIR_VAISSEAU) {
+		posY = vehicle->GetSprite().getPosition().y - vehicle->GetTexture().getSize().y / 2;
+	}
+	else {
+		posY = vehicle->GetSprite().getPosition().y + vehicle->GetTexture().getSize().y;
+	}
+	
 	_texture.loadFromFile(Texture);
 	_sprite.setTexture(_texture);
 	_sprite.setPosition(posX, posY);
+
+	cout << GetSpeed() << endl;
+	cout << "POS Y : " << posY << endl;
+	cout << "POS X : " << posX << endl;
 }
 
-void Projectile::Projectile_Deplacement(float delta)
+void Projectile::Projectile_Deplacement()
 {
+	_sprite.move(0, GetSpeed() * _direction);
 }
 
 bool Projectile::GetTouch()

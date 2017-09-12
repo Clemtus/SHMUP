@@ -1,6 +1,6 @@
 CC=g++
 CFLAGS=-Wall
-EXEC_NAME=shmup
+EXEC_NAME=shmup.app
 INCLUDES=-I/usr/include/SFML -I.
 LIBS=-lsfml-graphics -lsfml-window -lsfml-system
 OBJ_FILES=Main.o Enemy.o Entity.o Freekazoid.o Game.o Polaroid.o Projectile.o Spatialship.o Vehicle.o 

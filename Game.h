@@ -63,7 +63,8 @@ public:
 		// GENERATION ENNEMIES
 	void Enemy_Generation(float screenW, int level);
 	Enemy* Enemy_Spawn(float posX, EnemyTypeEnum type);
-
+		// GENERATION TIR ENNEMIES
+	void Enemy_Shot();
 		// DEPLACEMENT ENNEMIES
 	void Enemy_Management(float screenH);
 };

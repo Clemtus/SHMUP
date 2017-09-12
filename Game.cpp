@@ -54,27 +54,14 @@ void Game::KB_Management(float screenW)
 		if (_vaisseau->GetSprite().getPosition().x > 0.0) {
 			_vaisseau->Vaisseau_Deplacement(LEFT);
 		}
-		if (Keyboard::isKeyPressed(Keyboard::Space)) {
-			if (_pTimeVaisseau.getElapsedTime().asMilliseconds() >= DELAY_MISSILE_VSO) {
-				class Projectile *project = new Projectile(GetVaisseau(), TEXTURE_PROJECTILE_SPATIALSHIP, TIR_VAISSEAU);
-				AddProjectileBoard(project);
-				_pTimeVaisseau.restart();
-			}
-		}
 	}
 	else if(Keyboard::isKeyPressed(Keyboard::Right)){
 		if (_vaisseau->GetSprite().getPosition().x < screenW - (_vaisseau->GetTexture().getSize().x)) {
 			_vaisseau->Vaisseau_Deplacement(RIGHT);
 		}
-		if (Keyboard::isKeyPressed(Keyboard::Space)) {
-			if (_pTimeVaisseau.getElapsedTime().asMilliseconds() >= DELAY_MISSILE_VSO) {
-				class Projectile *project = new Projectile(GetVaisseau(), TEXTURE_PROJECTILE_SPATIALSHIP, TIR_VAISSEAU);
-				AddProjectileBoard(project);
-				_pTimeVaisseau.restart();
-			}
-		}
 	}
-	else if (Keyboard::isKeyPressed(Keyboard::Space)) {
+	
+	if (Keyboard::isKeyPressed(Keyboard::Space)) {
 		if (_pTimeVaisseau.getElapsedTime().asMilliseconds() >= DELAY_MISSILE_VSO) {
 			class Projectile *project = new Projectile(GetVaisseau(), TEXTURE_PROJECTILE_SPATIALSHIP, TIR_VAISSEAU);
 			AddProjectileBoard(project);
@@ -195,6 +182,22 @@ Enemy* Game::Enemy_Spawn(float posX, EnemyTypeEnum type) {
 	return enemy;
 }
 
+	// GENERATION PROJECTILES ENNEMIES
+void Game::Enemy_Shot()
+{
+	if (_pTimeEnemy.getElapsedTime().asMilliseconds() >= DELAY_MISSILE_ENEMY) {
+		if (_enemyBoard.size() > 0) {
+			for (int indexBoard = 0; indexBoard < _enemyBoard.size(); indexBoard++) {
+				int tir = rand() % 2;
+				if (tir) {
+					class Projectile *project = new Projectile(&_enemyBoard[indexBoard], TEXTURE_PROJECTILE_SPATIALSHIP, TIR_ENEMY);
+					AddProjectileBoard(project);
+				}
+			}
+		}
+		_pTimeEnemy.restart();
+	}
+}
 	// DEPLACEMENT ENNEMIES
 void Game::Enemy_Management(float screenH)
 {
@@ -212,14 +215,10 @@ void Game::Enemy_Management(float screenH)
 		}
 	}
 
-	int tir = rand() % 100;
-	if (tir < 10) {
-		class Projectile *project = new Projectile(&_enemyBoard[3], TEXTURE_PROJECTILE_SPATIALSHIP, TIR_ENEMY);
-		AddProjectileBoard(project);
-		cout << _projectileBoard.size() << endl;
-		cout << "TIR" << endl;
-	}
+	Enemy_Shot();
 }
+
+	
 
 	
 

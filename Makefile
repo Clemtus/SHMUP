@@ -3,7 +3,7 @@ CFLAGS=-Wall
 EXEC_NAME=shmup.app
 INCLUDES=-I/usr/include/SFML -I.
 LIBS=-lsfml-graphics -lsfml-window -lsfml-system
-OBJ_FILES=Main.o Enemy.o Entity.o Freekazoid.o Game.o Polaroid.o Projectile.o Spatialship.o Vehicle.o 
+OBJ_FILES=Main.o Enemy.o Entity.o Freekazoid.o Game.o Polaroid.o Projectile.o Spatialship.o Vehicle.o Explosion.o
 INSTALL_DIR=/usr/bin
 
 all: $(EXEC_NAME)

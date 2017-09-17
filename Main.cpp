@@ -50,6 +50,7 @@ int main(int argc, char *argv[]) {
 			DeplacementEnemey.restart();
 		}
 		game.Projectile_Management();
+		game.Explosion_Management();
 
 		game.Collision();
 
@@ -68,6 +69,13 @@ int main(int argc, char *argv[]) {
 		auto enemyBoard = game.GetEnemyBoard();
 		for (vector<Enemy>::iterator it = enemyBoard.begin();
 			it < enemyBoard.end();
+			it++) {
+			window.draw(it->GetSprite());
+		}
+			// DESSINE LES EXPLOSIONS
+		auto explosionBoard = game.GetExplosionBoard();
+		for (vector<Explosion>::iterator it = explosionBoard.begin();
+			it < explosionBoard.end();
 			it++) {
 			window.draw(it->GetSprite());
 		}

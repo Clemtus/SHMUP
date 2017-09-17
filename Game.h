@@ -9,6 +9,7 @@
 #include "Enumeration.h"
 #include "Freekazoid.h"
 #include "Polaroid.h"
+#include "Explosion.h"
 
 using namespace std; 
 
@@ -23,6 +24,7 @@ private:
 	Spatialship *_vaisseau;
 	vector<Projectile> _projectileBoard;
 	vector<Enemy> _enemyBoard;
+	vector<Explosion> _explosionBoard;
 	Clock _pTimeVaisseau;
 	Clock _pTimeEnemy;
 
@@ -39,6 +41,9 @@ public:
 
 	vector<Projectile> GetProjectileBoard();
 	void AddProjectileBoard(Projectile* projectile);
+
+	vector<Explosion> GetExplosionBoard();
+	void AddExplosionBoard(Explosion* explosion);
 
 	int GetNbEnemy();
 	/* END GETTER / SETTER */
@@ -67,4 +72,10 @@ public:
 	void Enemy_Shot();
 		// DEPLACEMENT ENNEMIES
 	void Enemy_Management(float screenH);
+
+	// EXPLOSION
+		//AFFICHAGE EXPLOSION
+	void Explosion_Generation(Vector2f position);
+		// SUPPRESION DES EXPLOSIONS
+	void Explosion_Management();
 };

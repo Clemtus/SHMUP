@@ -23,7 +23,7 @@ class Game
 private:
 	Spatialship *_vaisseau;
 	vector<Projectile> _projectileBoard;
-	vector<Enemy> _enemyBoard;
+	vector<Enemy *> _enemyBoard;
 	vector<Explosion> _explosionBoard;
 	Clock _pTimeVaisseau;
 	Clock _pTimeEnemy;
@@ -35,7 +35,7 @@ public:
 	Spatialship* GetVaisseau();
 	void SetVaisseau(Spatialship *vso);
 	
-	vector<Enemy> GetEnemyBoard();
+	vector<Enemy *> GetEnemyBoard();
 	void AddEnemyBoard(Enemy* ennemi);
 	void ClearEnemyBoard();
 

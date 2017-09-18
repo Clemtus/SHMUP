@@ -67,10 +67,10 @@ int main(int argc, char *argv[]) {
 		window.draw(game.GetVaisseau()->GetSprite());
 			// DESSINE LES ENEMIES
 		auto enemyBoard = game.GetEnemyBoard();
-		for (vector<Enemy>::iterator it = enemyBoard.begin();
+		for (vector<Enemy *>::iterator it = enemyBoard.begin();
 			it < enemyBoard.end();
 			it++) {
-			window.draw(it->GetSprite());
+			window.draw((*it)->GetSprite());
 		}
 			// DESSINE LES EXPLOSIONS
 		auto explosionBoard = game.GetExplosionBoard();

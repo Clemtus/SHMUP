@@ -9,4 +9,9 @@ Freekazoid::Freekazoid(float posX)
 	SetSpeed(free_speed);
 }
 
+void Freekazoid::Ennemy_Deplacement()
+{
+}
+
+
 

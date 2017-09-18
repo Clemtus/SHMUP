@@ -11,5 +11,6 @@ class Freekazoid :
 {
 public:
 	Freekazoid(float posX);
+	void Ennemy_Deplacement();
 };
 

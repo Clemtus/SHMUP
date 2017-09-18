@@ -41,6 +41,16 @@ void Game::AddProjectileBoard(Projectile*  projectile)
 	_projectileBoard.push_back(*projectile);
 }
 
+vector<Explosion> Game::GetExplosionBoard()
+{
+	return _explosionBoard;
+}
+
+void Game::AddExplosionBoard(Explosion * explosion)
+{
+	_explosionBoard.push_back(*explosion);
+}
+
 int Game::GetNbEnemy()
 {
 	return _enemyBoard.size();
@@ -122,6 +132,8 @@ void Game::Erase_Object() {
 	for (vector<Enemy>::iterator enemy_it = _enemyBoard.begin();
 		enemy_it < _enemyBoard.end();) {
 		if (enemy_it->GetHealth() <= 0) {
+			// AJOUT EXPLOSION
+			Explosion_Generation(enemy_it->GetSprite().getPosition());
 			enemy_it = _enemyBoard.erase(enemy_it);
 		}
 		else {
@@ -216,6 +228,30 @@ void Game::Enemy_Management(float screenH)
 	}
 
 	Enemy_Shot();
+}
+
+
+// EXPLOSION
+	// GENERATION EXPLOSION
+void Game::Explosion_Generation(Vector2f position)
+{
+	class Explosion *explosion = new Explosion(position);
+	AddExplosionBoard(explosion);
+}
+	// SUPPRIMER LES EXPLOSIONS
+void Game::Explosion_Management()
+{
+	for (vector<Explosion>::iterator it = _explosionBoard.begin();
+		it < _explosionBoard.end();) {
+		it->Explo_Anim();
+
+		if (it->GetEtatRect() > 20) {
+			it = _explosionBoard.erase(it);
+		}
+		else {
+			++it;
+		}
+	}
 }
 
 	

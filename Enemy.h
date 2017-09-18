@@ -27,4 +27,3 @@ public:
 	void IncrementIndexPattern();
 	void ReniIndexPattern();
 };
-

@@ -16,14 +16,14 @@ void Game::SetVaisseau(Spatialship * vso)
 	_vaisseau = vso;
 }
 
-vector<Enemy> Game::GetEnemyBoard()
+vector<Enemy *> Game::GetEnemyBoard()
 {
 	return _enemyBoard;
 }
 
 void Game::AddEnemyBoard(Enemy* ennemi)
 {
-	_enemyBoard.push_back(*ennemi);
+	_enemyBoard.push_back(ennemi);
 }
 
 void Game::ClearEnemyBoard()
@@ -89,7 +89,6 @@ void Game::Projectile_Management() {
 		it->Projectile_Deplacement();
 
 		float posY = it->GetSprite().getPosition().y;
-		int sizeY = it->GetTexture().getSize().y;
 
 		if (posY < 0 || posY > 800) {
 			it = _projectileBoard.erase(it);
@@ -117,23 +116,23 @@ void Game::Projectile_Collision_Enemy() {
 		projectile_it < _projectileBoard.end();
 		projectile_it++) {
 		
-		for (vector<Enemy>::iterator enemy_it = _enemyBoard.begin();
+		for (vector<Enemy *>::iterator enemy_it = _enemyBoard.begin();
 			enemy_it < _enemyBoard.end();
 			enemy_it++) {
 			
-			if (Entity_Collision(*projectile_it, *enemy_it)) {
-				enemy_it->Taking_Damage(1);
+			if (Entity_Collision(*projectile_it, **enemy_it)) {
+				(*enemy_it)->Taking_Damage(1);
 				projectile_it->SetTouch(true);
 			}
 		}
 	}
 }
 void Game::Erase_Object() {
-	for (vector<Enemy>::iterator enemy_it = _enemyBoard.begin();
+	for (vector<Enemy *>::iterator enemy_it = _enemyBoard.begin();
 		enemy_it < _enemyBoard.end();) {
-		if (enemy_it->GetHealth() <= 0) {
+		if ((*enemy_it)->GetHealth() <= 0) {
 			// AJOUT EXPLOSION
-			Explosion_Generation(enemy_it->GetSprite().getPosition());
+			Explosion_Generation((*enemy_it)->GetSprite().getPosition());
 			enemy_it = _enemyBoard.erase(enemy_it);
 		}
 		else {
@@ -199,10 +198,10 @@ void Game::Enemy_Shot()
 {
 	if (_pTimeEnemy.getElapsedTime().asMilliseconds() >= DELAY_MISSILE_ENEMY) {
 		if (_enemyBoard.size() > 0) {
-			for (int indexBoard = 0; indexBoard < _enemyBoard.size(); indexBoard++) {
+			for (uint indexBoard = 0; indexBoard < _enemyBoard.size(); indexBoard++) {
 				int tir = rand() % 2;
 				if (tir) {
-					class Projectile *project = new Projectile(&_enemyBoard[indexBoard], TEXTURE_PROJECTILE_SPATIALSHIP, TIR_ENEMY);
+					class Projectile *project = new Projectile(_enemyBoard[indexBoard], TEXTURE_PROJECTILE_SPATIALSHIP, TIR_ENEMY);
 					AddProjectileBoard(project);
 				}
 			}
@@ -213,11 +212,11 @@ void Game::Enemy_Shot()
 	// DEPLACEMENT ENNEMIES
 void Game::Enemy_Management(float screenH)
 {
-	for (vector<Enemy>::iterator it = _enemyBoard.begin();
+	for (vector<Enemy *>::iterator it = _enemyBoard.begin();
 		it < _enemyBoard.end();) {
-		it->Ennemy_Deplacement();
+		(*it)->Ennemy_Deplacement();
 
-		float posY = it->GetSprite().getPosition().y;
+		float posY = (*it)->GetSprite().getPosition().y;
 		
 		if (posY > screenH) {
 			it = _enemyBoard.erase(it);

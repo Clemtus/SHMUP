@@ -12,5 +12,6 @@ class Polaroid :
 {
 public:
 	Polaroid(float posX);
+	void Ennemy_Deplacement();
 };
 

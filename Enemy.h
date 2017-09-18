@@ -21,7 +21,7 @@ private:
 protected: 
 	Vector2f _pattern[6];
 public:
-	void Ennemy_Deplacement();
+	virtual void Ennemy_Deplacement() = 0;
 
 	int GetIndexPattern();
 	void IncrementIndexPattern();

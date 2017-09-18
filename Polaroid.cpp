@@ -23,3 +23,17 @@ Polaroid::Polaroid(float posX)
 	ReniIndexPattern();
 }
 
+void Polaroid::Ennemy_Deplacement()
+{
+	if (GetIndexPattern() < 5) {
+		_sprite.move(_pattern[GetIndexPattern()].x * (GetSpeed() / 2), _pattern[GetIndexPattern()].y * (GetSpeed() * 2));
+		IncrementIndexPattern();
+	}
+	else {
+		_sprite.move(_pattern[GetIndexPattern()].x * (GetSpeed() / 2), _pattern[GetIndexPattern()].y * (GetSpeed() * 2));
+		ReniIndexPattern();
+	}
+}
+
+
+

@@ -18,10 +18,6 @@ Projectile::Projectile(Vehicle *vehicle, string Texture, DirectionEnumProjectile
 	_texture.loadFromFile(Texture);
 	_sprite.setTexture(_texture);
 	_sprite.setPosition(posX, posY);
-
-	cout << GetSpeed() << endl;
-	cout << "POS Y : " << posY << endl;
-	cout << "POS X : " << posX << endl;
 }
 
 void Projectile::Projectile_Deplacement()

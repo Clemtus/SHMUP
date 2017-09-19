@@ -13,20 +13,20 @@
 
 using namespace std; 
 
-const int DELAY_MISSILE_VSO = 300;
-const int DELAY_MISSILE_ENEMY = 300;
-const string TEXTURE_PROJECTILE_SPATIALSHIP = "sprite/ProjectileVso.png";
-
 
 class Game
 {
 private:
 	Spatialship *_vaisseau;
-	vector<Projectile> _projectileBoard;
+	vector<Projectile *> _projectileBoard;
 	vector<Enemy *> _enemyBoard;
-	vector<Explosion> _explosionBoard;
+	vector<Explosion *> _explosionBoard;
 	Clock _pTimeVaisseau;
 	Clock _pTimeEnemy;
+	Clock _eTimeSpawn;
+
+	map<int, vector<EnemyTypeEnum>> _enemyLevelBoard;
+	int _indexBoardEnemyLevel = 0;
 
 public:
 	Game(float screenW, float screenH);
@@ -39,12 +39,20 @@ public:
 	void AddEnemyBoard(Enemy* ennemi);
 	void ClearEnemyBoard();
 
-	vector<Projectile> GetProjectileBoard();
+	vector<Projectile *> GetProjectileBoard();
 	void AddProjectileBoard(Projectile* projectile);
 
-	vector<Explosion> GetExplosionBoard();
+	vector<Explosion *> GetExplosionBoard();
 	void AddExplosionBoard(Explosion* explosion);
 
+	map<int, vector<EnemyTypeEnum>> GetEnemyLevelBoard();
+	void AddEnemyLevelBoard(int level, vector<EnemyTypeEnum> enemyBoard);
+	int GetSizeEnemyLevelBoard(int level);
+
+	int GetIndexBoardEnemyLevel();
+	void IncrementIndexBoardEnemyLevel();
+	void ReniIndexBoardEnemyLevel();
+	
 	int GetNbEnemy();
 	/* END GETTER / SETTER */
 
@@ -67,11 +75,11 @@ public:
 	// ENNEMIES
 		// GENERATION ENNEMIES
 	void Enemy_Generation(float screenW, int level);
-	Enemy* Enemy_Spawn(float posX, EnemyTypeEnum type);
+	Enemy* Enemy_Spawn(EnemyTypeEnum type);
 		// GENERATION TIR ENNEMIES
 	void Enemy_Shot();
 		// DEPLACEMENT ENNEMIES
-	void Enemy_Management(float screenH);
+	void Enemy_Management(float screenH, int level);
 
 	// EXPLOSION
 		//AFFICHAGE EXPLOSION

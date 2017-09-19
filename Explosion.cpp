@@ -1,7 +1,6 @@
 #include "Explosion.h"
 
 
-
 Explosion::Explosion(Vector2f position)
 {
 	SetEtatRect(0);

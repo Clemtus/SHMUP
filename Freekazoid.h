@@ -10,6 +10,7 @@ class Freekazoid :
 	public Enemy
 {
 public:
-	Freekazoid(float posX);
+	Freekazoid();
 	void Ennemy_Deplacement();
+	Vector2f Enemy_Position_Spawn();
 };

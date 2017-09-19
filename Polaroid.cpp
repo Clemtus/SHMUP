@@ -1,38 +1,53 @@
 #include "Polaroid.h"
 
 
-Polaroid::Polaroid(float posX)
+Polaroid::Polaroid()
 {
+	
 	_texture.loadFromFile(TEXTURE_POLAROID);
 	_sprite.setTexture(_texture);
-	_sprite.setPosition(posX, 0);
+	_sprite.setPosition(Enemy_Position_Spawn());
 	
 	SetHealth(pola_health);
 	SetSpeed(pola_speed);
 
 	SetSpeedProjectile(speedProjectilePola);
-
-	// INITIALISATION DU PATTERN
-	_pattern[0] = LEFT_DOWN_P;
-	_pattern[1] = LEFT_DOWN_P;
-	_pattern[2] = RIGHT_DOWN_P;
-	_pattern[3] = UP_P;
-	_pattern[4] = RIGHT_DOWN_P;
-	_pattern[5] = DOWN_P;
-
-	ReniIndexPattern();
+	
+	if (_sprite.getPosition().x > (screenW / 2)) {
+		_direction = RIGHT_DOWN_P;
+	}
+	else {
+		_direction = LEFT_DOWN_P;
+	}
 }
 
 void Polaroid::Ennemy_Deplacement()
 {
-	if (GetIndexPattern() < 5) {
-		_sprite.move(_pattern[GetIndexPattern()].x * (GetSpeed() / 2), _pattern[GetIndexPattern()].y * (GetSpeed() * 2));
-		IncrementIndexPattern();
+	if (_sprite.getPosition().x < 0) {
+		SetDirection(RIGHT_DOWN_P);
 	}
-	else {
-		_sprite.move(_pattern[GetIndexPattern()].x * (GetSpeed() / 2), _pattern[GetIndexPattern()].y * (GetSpeed() * 2));
-		ReniIndexPattern();
+	else if (_sprite.getPosition().x + _texture.getSize().x > screenW){
+		SetDirection(LEFT_DOWN_P);
 	}
+	
+	_sprite.move(GetDirection().x, GetDirection().y * GetSpeed());
+}
+
+Vector2f Polaroid::Enemy_Position_Spawn()
+{
+	float posX = rand() % (int(screenW) - _texture.getSize().x);
+	float posY = (_texture.getSize().y - 5);
+	return Vector2f(posX, -posY);
+}
+
+Vector2f Polaroid::GetDirection()
+{
+	return _direction;
+}
+
+void Polaroid::SetDirection(Vector2f direction)
+{
+	_direction = direction;
 }
 
 

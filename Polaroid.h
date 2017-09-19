@@ -10,8 +10,14 @@ const float speedProjectilePola = 5.5;
 class Polaroid :
 	public Enemy
 {
+private:
+	Vector2f _direction;
 public:
-	Polaroid(float posX);
+	Polaroid();
 	void Ennemy_Deplacement();
+	Vector2f Enemy_Position_Spawn();
+
+	Vector2f GetDirection();
+	void SetDirection(Vector2f direction);
 };
 

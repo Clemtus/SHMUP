@@ -1,22 +1,23 @@
 #include "Freekazoid.h"
 
-Freekazoid::Freekazoid(float posX)
+Freekazoid::Freekazoid()
 {
 	_texture.loadFromFile(TEXTURE_FREEKAZOID);
 	_sprite.setTexture(_texture);
-	_sprite.setPosition(posX, 0);
+
+
+	_sprite.setPosition(Enemy_Position_Spawn());
 	SetHealth(free_health);
 	SetSpeed(free_speed);
 }
 
 void Freekazoid::Ennemy_Deplacement()
 {
-	if (GetIndexPattern() < 5) {
-		_sprite.move(_pattern[GetIndexPattern()].x * (GetSpeed() / 2), _pattern[GetIndexPattern()].y * (GetSpeed() * 2));
-		IncrementIndexPattern();
-	}
-	else {
-		_sprite.move(_pattern[GetIndexPattern()].x * (GetSpeed() / 2), _pattern[GetIndexPattern()].y * (GetSpeed() * 2));
-		ReniIndexPattern();
-	}
+}
+
+Vector2f Freekazoid::Enemy_Position_Spawn()
+{
+	float posX = rand() % (int(screenW) - _texture.getSize().x);
+	float posY = (_texture.getSize().y - 5);
+	return Vector2f(posX, -posY);
 }

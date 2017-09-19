@@ -2,15 +2,13 @@
 #include <iostream>
 
 #include "Game.h"
+#include "Enumeration.h"
 
 using namespace sf;
 using namespace std;
 
 
-const float screenW = 800.0;
-const float screenH = 600.0;
-
-Clock DeplacementEnemey;
+Clock DeplacementEnemy;
 
 RenderWindow window;
 
@@ -25,6 +23,8 @@ int main(int argc, char *argv[]) {
 	class Game game(screenW, screenH);
 	bool enemy = true;
 
+	game.AddEnemyLevelBoard(1, enemyLevelOneBoard);
+
 	/* -- BOUCLE PRINCIPAL -- */
 	while (window.isOpen()) {
 		Event event;
@@ -35,19 +35,13 @@ int main(int argc, char *argv[]) {
 				window.close();
 			}
 		}
-
-		if (enemy) {
-			game.Enemy_Generation(screenW, 1);
-			cout << game.GetNbEnemy() << endl;
-			enemy = false;
-		}
 		
 		game.KB_Management(screenW);
 		
 		
-		if (DeplacementEnemey.getElapsedTime().asMilliseconds() >= 150) {
-			game.Enemy_Management(screenH);
-			DeplacementEnemey.restart();
+		if (DeplacementEnemy.getElapsedTime().asMilliseconds() >= 100) {
+			game.Enemy_Management(screenH, 1);
+			DeplacementEnemy.restart();
 		}
 		game.Projectile_Management();
 		game.Explosion_Management();
@@ -58,10 +52,10 @@ int main(int argc, char *argv[]) {
 		// GESTION D'AFFICHAGE
 			// DESSINE LES PROJECTILES
 		auto projectileBoard = game.GetProjectileBoard();
-		for (vector<Projectile>::iterator it = projectileBoard.begin();
+		for (vector<Projectile *>::iterator it = projectileBoard.begin();
 			it < projectileBoard.end();
 			it++) {
-			window.draw(it->GetSprite());
+			window.draw((*it)->GetSprite());
 		}
 			// DESSINE LE VAISSEAU
 		window.draw(game.GetVaisseau()->GetSprite());
@@ -74,10 +68,10 @@ int main(int argc, char *argv[]) {
 		}
 			// DESSINE LES EXPLOSIONS
 		auto explosionBoard = game.GetExplosionBoard();
-		for (vector<Explosion>::iterator it = explosionBoard.begin();
+		for (vector<Explosion *>::iterator it = explosionBoard.begin();
 			it < explosionBoard.end();
 			it++) {
-			window.draw(it->GetSprite());
+			window.draw((*it)->GetSprite());
 		}
 
 		window.display();

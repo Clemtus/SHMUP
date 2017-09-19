@@ -16,14 +16,7 @@ const Vector2f UP_P = Vector2f(0, -1);
 class Enemy :
 	public Vehicle
 {
-private:
-	int _indexPattern;
-protected: 
-	Vector2f _pattern[6];
 public:
 	virtual void Ennemy_Deplacement() = 0;
-
-	int GetIndexPattern();
-	void IncrementIndexPattern();
-	void ReniIndexPattern();
+	virtual Vector2f Enemy_Position_Spawn() = 0;
 };

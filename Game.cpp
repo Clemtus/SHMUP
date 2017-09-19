@@ -31,24 +31,54 @@ void Game::ClearEnemyBoard()
 	_enemyBoard.clear();
 }
 
-vector<Projectile> Game::GetProjectileBoard()
+vector<Projectile *> Game::GetProjectileBoard()
 {
 	return _projectileBoard;
 }
 
 void Game::AddProjectileBoard(Projectile*  projectile)
 {
-	_projectileBoard.push_back(*projectile);
+	_projectileBoard.push_back(projectile);
 }
 
-vector<Explosion> Game::GetExplosionBoard()
+vector<Explosion *> Game::GetExplosionBoard()
 {
 	return _explosionBoard;
 }
 
 void Game::AddExplosionBoard(Explosion * explosion)
 {
-	_explosionBoard.push_back(*explosion);
+	_explosionBoard.push_back(explosion);
+}
+
+map<int, vector<EnemyTypeEnum>> Game::GetEnemyLevelBoard()
+{
+	return _enemyLevelBoard;
+}
+
+void Game::AddEnemyLevelBoard(int level, vector<EnemyTypeEnum> enemyBoard)
+{
+	_enemyLevelBoard[level] = enemyBoard;
+}
+
+int Game::GetSizeEnemyLevelBoard(int level)
+{
+	return _enemyLevelBoard[level].size();
+}
+
+int Game::GetIndexBoardEnemyLevel()
+{
+	return _indexBoardEnemyLevel;
+}
+
+void Game::IncrementIndexBoardEnemyLevel()
+{
+	_indexBoardEnemyLevel++;
+}
+
+void Game::ReniIndexBoardEnemyLevel()
+{
+	_indexBoardEnemyLevel = 0;
 }
 
 int Game::GetNbEnemy()
@@ -84,11 +114,11 @@ void Game::KB_Management(float screenW)
 // PROJECTILES
 	// DEPLACEMENT PROJECTILES
 void Game::Projectile_Management() {	
-	for (vector<Projectile>::iterator it = _projectileBoard.begin();
+	for (vector<Projectile *>::iterator it = _projectileBoard.begin();
 		it < _projectileBoard.end();) {
-		it->Projectile_Deplacement();
+		(*it)->Projectile_Deplacement();
 
-		float posY = it->GetSprite().getPosition().y;
+		float posY = (*it)->GetSprite().getPosition().y;
 
 		if (posY < 0 || posY > 800) {
 			it = _projectileBoard.erase(it);
@@ -112,17 +142,19 @@ bool Game::Entity_Collision(Entity entityOne, Entity entityTwo) {
 	}
 }
 void Game::Projectile_Collision_Enemy() {
-	for (vector<Projectile>::iterator projectile_it = _projectileBoard.begin();
+	for (vector<Projectile *>::iterator projectile_it = _projectileBoard.begin();
 		projectile_it < _projectileBoard.end();
 		projectile_it++) {
-		
-		for (vector<Enemy *>::iterator enemy_it = _enemyBoard.begin();
-			enemy_it < _enemyBoard.end();
-			enemy_it++) {
-			
-			if (Entity_Collision(*projectile_it, **enemy_it)) {
-				(*enemy_it)->Taking_Damage(1);
-				projectile_it->SetTouch(true);
+
+		// VERIFIE SI LE PROJECTILE VIENS BIEN D'UN ENEMY
+		if ((*projectile_it)->GetDirection() == -1) {
+			for (vector<Enemy *>::iterator enemy_it = _enemyBoard.begin();
+				enemy_it < _enemyBoard.end();
+				enemy_it++) {
+				if (Entity_Collision(**projectile_it, **enemy_it)) {
+					(*enemy_it)->Taking_Damage(1);
+					(*projectile_it)->SetTouch(true);
+				}
 			}
 		}
 	}
@@ -140,9 +172,9 @@ void Game::Erase_Object() {
 		}
 	}
 
-	for (vector<Projectile>::iterator projectile_it = _projectileBoard.begin();
+	for (vector<Projectile *>::iterator projectile_it = _projectileBoard.begin();
 		projectile_it < _projectileBoard.end();) {
-		if (projectile_it->GetTouch()) {
+		if ((*projectile_it)->GetTouch()) {
 			projectile_it = _projectileBoard.erase(projectile_it);
 		}
 		else {
@@ -156,37 +188,24 @@ void Game::Collision() {
 }
 
 
-// ENNEMIES
-	// GENERATION ENNEMIES
-void Game::Enemy_Generation(float screenW, int level)
-{
-	ClearEnemyBoard();
-
-	switch (level)
-	{
-		case 1: {
-			float posX = screenW / 8;
-			class Enemy* enemy1 = Enemy_Spawn(posX * 1,POLAROID_ENEMY);
-			AddEnemyBoard(enemy1);
-			class Enemy* enemy2 = Enemy_Spawn(posX * 2, POLAROID_ENEMY);
-			AddEnemyBoard(enemy2);
-			class Enemy* enemy4 = Enemy_Spawn(posX * 6, POLAROID_ENEMY);
-			AddEnemyBoard(enemy4);
-			class Enemy* enemy5 = Enemy_Spawn(posX * 7, POLAROID_ENEMY);
-			AddEnemyBoard(enemy5);
-			break;
-		}
+void Game::Enemy_Generation(float screenW, int level) {
+	switch (level) {
+	case 1:
+		class Enemy* enemy = Enemy_Spawn(_enemyLevelBoard[1][GetIndexBoardEnemyLevel()]);
+		AddEnemyBoard(enemy);
+		IncrementIndexBoardEnemyLevel();
+		break;
 	}
 }
-Enemy* Game::Enemy_Spawn(float posX, EnemyTypeEnum type) {
+Enemy* Game::Enemy_Spawn(EnemyTypeEnum type) {
 	class Enemy* enemy = NULL;
 	switch (type) {
 		case FREEKAZOID_ENEMY: {
-			enemy = new Freekazoid(posX);
+			enemy = new Freekazoid();
 			break;
 		}
 		case POLAROID_ENEMY: {
-			enemy = new Polaroid(posX);
+			enemy = new Polaroid();
 			break;
 		}
 	}
@@ -198,9 +217,9 @@ void Game::Enemy_Shot()
 {
 	if (_pTimeEnemy.getElapsedTime().asMilliseconds() >= DELAY_MISSILE_ENEMY) {
 		if (_enemyBoard.size() > 0) {
-			for (uint indexBoard = 0; indexBoard < _enemyBoard.size(); indexBoard++) {
+			for (int indexBoard = 0; indexBoard < _enemyBoard.size(); indexBoard++) {
 				int tir = rand() % 2;
-				if (tir) {
+				if (tir && _enemyBoard[indexBoard]->GetSprite().getPosition().y < screenH / 2) {
 					class Projectile *project = new Projectile(_enemyBoard[indexBoard], TEXTURE_PROJECTILE_SPATIALSHIP, TIR_ENEMY);
 					AddProjectileBoard(project);
 				}
@@ -210,8 +229,14 @@ void Game::Enemy_Shot()
 	}
 }
 	// DEPLACEMENT ENNEMIES
-void Game::Enemy_Management(float screenH)
+void Game::Enemy_Management(float screenH, int level)
 {
+	if ((_eTimeSpawn.getElapsedTime().asMilliseconds() >= DELAY_SPAWN_ENEMY) && (GetIndexBoardEnemyLevel() < GetSizeEnemyLevelBoard(level))) {
+		Enemy_Generation(screenW, level);
+		_eTimeSpawn.restart();
+		cout << _enemyLevelBoard[level].size() << endl;
+	}
+
 	for (vector<Enemy *>::iterator it = _enemyBoard.begin();
 		it < _enemyBoard.end();) {
 		(*it)->Ennemy_Deplacement();
@@ -240,11 +265,11 @@ void Game::Explosion_Generation(Vector2f position)
 	// SUPPRIMER LES EXPLOSIONS
 void Game::Explosion_Management()
 {
-	for (vector<Explosion>::iterator it = _explosionBoard.begin();
+	for (vector<Explosion *>::iterator it = _explosionBoard.begin();
 		it < _explosionBoard.end();) {
-		it->Explo_Anim();
+		(*it)->Explo_Anim();
 
-		if (it->GetEtatRect() > 20) {
+		if ((*it)->GetEtatRect() > 20) {
 			it = _explosionBoard.erase(it);
 		}
 		else {

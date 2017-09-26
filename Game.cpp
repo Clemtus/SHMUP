@@ -250,7 +250,7 @@ void Game::Enemy_Shot()
 {
 	if (_pTimeEnemy.getElapsedTime().asMilliseconds() >= DELAY_MISSILE_ENEMY) {
 		if (_enemyBoard.size() > 0) {
-			for (int indexBoard = 0; indexBoard < _enemyBoard.size(); indexBoard++) {
+			for (uint indexBoard = 0; indexBoard < _enemyBoard.size(); indexBoard++) {
 				int tir = rand() % 2;
 				if (tir && _enemyBoard[indexBoard]->GetSprite().getPosition().y < screenH / 2) {
 					class Projectile *project = new Projectile(_enemyBoard[indexBoard], TEXTURE_PROJECTILE_SPATIALSHIP, TIR_ENEMY);

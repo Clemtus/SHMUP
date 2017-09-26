@@ -90,12 +90,12 @@ int Game::GetNbEnemy()
 // GESTION DU CLAVIER
 void Game::KB_Management(float screenW)
 {
-	if (Keyboard::isKeyPressed(Keyboard::Left)) {
+	if (Keyboard::isKeyPressed(Keyboard::Left) || Keyboard::isKeyPressed(Keyboard::Q)) {
 		if (_vaisseau->GetSprite().getPosition().x > 0.0) {
 			_vaisseau->Vaisseau_Deplacement(LEFT);
 		}
 	}
-	else if(Keyboard::isKeyPressed(Keyboard::Right)){
+	else if(Keyboard::isKeyPressed(Keyboard::Right) || Keyboard::isKeyPressed(Keyboard::D)){
 		if (_vaisseau->GetSprite().getPosition().x < screenW - (_vaisseau->GetTexture().getSize().x)) {
 			_vaisseau->Vaisseau_Deplacement(RIGHT);
 		}
@@ -195,6 +195,17 @@ void Game::Enemy_Generation(float screenW, int level) {
 		AddEnemyBoard(enemy);
 		IncrementIndexBoardEnemyLevel();
 		break;
+	
+	//case 2:
+	//	class Enemy* enemy1 = Enemy_Spawn(_enemyLevelBoard[2][GetIndexBoardEnemyLevel()]);
+	//	AddEnemyBoard(enemy1);
+	//	IncrementIndexBoardEnemyLevel();
+	//	/*if (GetIndexBoardEnemyLevel() < GetSizeEnemyLevelBoard(2)) {
+	//		class Enemy* enemy2 = Enemy_Spawn(_enemyLevelBoard[2][GetIndexBoardEnemyLevel()]);
+	//		AddEnemyBoard(enemy2);
+	//		IncrementIndexBoardEnemyLevel();
+	//	}*/
+	//	break;
 	}
 }
 Enemy* Game::Enemy_Spawn(EnemyTypeEnum type) {
@@ -231,10 +242,10 @@ void Game::Enemy_Shot()
 	// DEPLACEMENT ENNEMIES
 void Game::Enemy_Management(float screenH, int level)
 {
-	if ((_eTimeSpawn.getElapsedTime().asMilliseconds() >= DELAY_SPAWN_ENEMY) && (GetIndexBoardEnemyLevel() < GetSizeEnemyLevelBoard(level))) {
+	cout << GetEnemyBoard().size() << endl;
+	if ((((_eTimeSpawn.getElapsedTime().asMilliseconds() >= DELAY_SPAWN_ENEMY) || GetEnemyBoard().size() == 0)) && (GetIndexBoardEnemyLevel() < GetSizeEnemyLevelBoard(level))) {
 		Enemy_Generation(screenW, level);
 		_eTimeSpawn.restart();
-		cout << _enemyLevelBoard[level].size() << endl;
 	}
 
 	for (vector<Enemy *>::iterator it = _enemyBoard.begin();

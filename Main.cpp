@@ -21,9 +21,11 @@ int main(int argc, char *argv[]) {
 
 	// DECLARATION DE GAME
 	class Game game(screenW, screenH);
-	bool enemy = true;
+	int level = 1;
 
 	game.AddEnemyLevelBoard(1, enemyLevelOneBoard);
+	game.AddEnemyLevelBoard(2, enemyLevelTwoBoard);
+	game.AddEnemyLevelBoard(3, enemyLevelTreeBoard);
 
 	/* -- BOUCLE PRINCIPAL -- */
 	while (window.isOpen()) {
@@ -35,12 +37,12 @@ int main(int argc, char *argv[]) {
 				window.close();
 			}
 		}
-		
+
 		game.KB_Management(screenW);
-		
-		
+
+
 		if (DeplacementEnemy.getElapsedTime().asMilliseconds() >= 100) {
-			game.Enemy_Management(screenH, 1);
+			game.Enemy_Management(screenH, level);
 			DeplacementEnemy.restart();
 		}
 		game.Projectile_Management();
@@ -48,6 +50,9 @@ int main(int argc, char *argv[]) {
 
 		game.Collision();
 
+		if (game.GetEnemyBoard().size() == 0){
+			level++;
+		}
 
 		// GESTION D'AFFICHAGE
 			// DESSINE LES PROJECTILES

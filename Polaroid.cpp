@@ -35,9 +35,17 @@ void Polaroid::Ennemy_Deplacement()
 
 Vector2f Polaroid::Enemy_Position_Spawn()
 {
-	float posX = rand() % (int(screenW) - _texture.getSize().x);
-	float posY = (_texture.getSize().y - 5);
-	return Vector2f(posX, -posY);
+	int zone_spawn = rand() % 2;
+	if (zone_spawn) {
+		float posX = screenW + 5;
+		float posY = rand() % 20;
+		return Vector2f(posX, posY);
+	}
+	else {
+		float posX = -5;
+		float posY = rand() % 20;
+		return Vector2f(posX, posY);
+	}
 }
 
 Vector2f Polaroid::GetDirection()

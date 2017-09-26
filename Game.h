@@ -10,6 +10,7 @@
 #include "Freekazoid.h"
 #include "Polaroid.h"
 #include "Explosion.h"
+#include "Object.h"
 
 using namespace std; 
 
@@ -18,6 +19,7 @@ class Game
 {
 private:
 	Spatialship *_vaisseau;
+	vector<Object *> _objectBoard;
 	vector<Projectile *> _projectileBoard;
 	vector<Enemy *> _enemyBoard;
 	vector<Explosion *> _explosionBoard;
@@ -34,6 +36,9 @@ public:
 	/* START GETTER / SETTER */
 	Spatialship* GetVaisseau();
 	void SetVaisseau(Spatialship *vso);
+
+	vector<Object *> GetObjectBoard();
+	void AddObjectBoard(Object* object);
 	
 	vector<Enemy *> GetEnemyBoard();
 	void AddEnemyBoard(Enemy* ennemi);
@@ -86,4 +91,7 @@ public:
 	void Explosion_Generation(Vector2f position);
 		// SUPPRESION DES EXPLOSIONS
 	void Explosion_Management();
+
+	// LIFE
+	void HealthVaisseau_Initialisation();
 };

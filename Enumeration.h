@@ -25,6 +25,7 @@ const int DELAY_MISSILE_ENEMY = 500;
 const int DELAY_SPAWN_ENEMY = 4800;
 
 const string TEXTURE_PROJECTILE_SPATIALSHIP = "sprite/ProjectileVso.png";
+const string TEXTURE_LIFE = "sprite/Life.png";
 
 // DEFINITION DES TABLEAUX D'ENNEMIES DES DIFFERENTS NIVEAUX
 const vector<EnemyTypeEnum> enemyLevelOneBoard { POLAROID_ENEMY, POLAROID_ENEMY, POLAROID_ENEMY, POLAROID_ENEMY };

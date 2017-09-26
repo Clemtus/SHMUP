@@ -16,6 +16,16 @@ void Game::SetVaisseau(Spatialship * vso)
 	_vaisseau = vso;
 }
 
+vector<Object*> Game::GetObjectBoard()
+{
+	return _objectBoard;
+}
+
+void Game::AddObjectBoard(Object * object)
+{
+	_objectBoard.push_back(object);
+}
+
 vector<Enemy *> Game::GetEnemyBoard()
 {
 	return _enemyBoard;
@@ -157,6 +167,16 @@ void Game::Projectile_Collision_Enemy() {
 				}
 			}
 		}
+		else {
+			if (Entity_Collision(**projectile_it, *GetVaisseau())) {
+				GetVaisseau()->Taking_Damage(1);
+				(*projectile_it)->SetTouch(true);
+				if (_objectBoard.size() > 0) {
+					_objectBoard.pop_back();
+				}
+				
+			}
+		}
 	}
 }
 void Game::Erase_Object() {
@@ -181,6 +201,10 @@ void Game::Erase_Object() {
 			++projectile_it;
 		}
 	}
+	if (!_objectBoard.size()) {
+		Explosion_Generation(GetVaisseau()->GetSprite().getPosition());
+		cout << "PERDU" << endl;
+	}
 }
 void Game::Collision() {
 	Projectile_Collision_Enemy();
@@ -190,6 +214,7 @@ void Game::Collision() {
 
 void Game::Enemy_Generation(int level) {
 	int nombreEnemy = 0;
+	int index = 0;
 	switch (level) {
 	case 1:
 		nombreEnemy = 1;
@@ -198,10 +223,11 @@ void Game::Enemy_Generation(int level) {
 		nombreEnemy = 2;
 		break;
 	}
-	for (int index = 0; index < nombreEnemy; index++) {
+	while (index < nombreEnemy && GetIndexBoardEnemyLevel() < GetSizeEnemyLevelBoard(level)) {
 		class Enemy* enemy = Enemy_Spawn(_enemyLevelBoard[level][GetIndexBoardEnemyLevel()]);
 		AddEnemyBoard(enemy);
 		IncrementIndexBoardEnemyLevel();
+		index++;
 	}
 }
 Enemy* Game::Enemy_Spawn(EnemyTypeEnum type) {
@@ -283,6 +309,20 @@ void Game::Explosion_Management()
 		}
 	}
 }
+
+
+// VIE
+void Game::HealthVaisseau_Initialisation()
+{
+	int espace = 5;
+	for (int index = 0; index < GetVaisseau()->GetHealth(); index++) {
+		class Object* health = new Object(TEXTURE_LIFE, espace, 0);
+		AddObjectBoard(health);
+		espace += 50;
+	}
+}
+
+
 
 	
 

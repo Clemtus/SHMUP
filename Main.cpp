@@ -27,6 +27,8 @@ int main(int argc, char *argv[]) {
 	game.AddEnemyLevelBoard(2, enemyLevelTwoBoard);
 	game.AddEnemyLevelBoard(3, enemyLevelTreeBoard);
 
+	game.HealthVaisseau_Initialisation();
+
 	/* -- BOUCLE PRINCIPAL -- */
 	while (window.isOpen()) {
 		Event event;
@@ -51,7 +53,7 @@ int main(int argc, char *argv[]) {
 		game.Collision();
 
 		if ((game.GetEnemyBoard().size() < 1) && (game.GetIndexBoardEnemyLevel() == game.GetSizeEnemyLevelBoard(level))){
-			game.GetEnemyBoard().clear();
+			game.ReniIndexBoardEnemyLevel();
 			level++; 
 			cout << "LEVEL " << level << endl;
 		}
@@ -64,7 +66,9 @@ int main(int argc, char *argv[]) {
 			window.draw((*it)->GetSprite());
 		}
 			// DESSINE LE VAISSEAU
-		window.draw(game.GetVaisseau()->GetSprite());
+		if (game.GetObjectBoard().size() > 0) {
+			window.draw(game.GetVaisseau()->GetSprite());
+		}
 			// DESSINE LES ENEMIES
 		auto enemyBoard = game.GetEnemyBoard();
 		for (vector<Enemy *>::iterator it = enemyBoard.begin();
@@ -76,6 +80,14 @@ int main(int argc, char *argv[]) {
 		auto explosionBoard = game.GetExplosionBoard();
 		for (vector<Explosion *>::iterator it = explosionBoard.begin();
 			it < explosionBoard.end();
+			it++) {
+			window.draw((*it)->GetSprite());
+		}
+
+			// DESSINE LES COEURS DE VIE
+		auto objectBoard = game.GetObjectBoard();
+		for (vector<Object *>::iterator it = objectBoard.begin();
+			it < objectBoard.end();
 			it++) {
 			window.draw((*it)->GetSprite());
 		}

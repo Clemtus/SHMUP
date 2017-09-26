@@ -4,7 +4,7 @@
 
 const string TEXTURE_FREEKAZOID = "sprite/Boss.png";
 const int free_health = 1;
-const float free_speed = 1;
+const float free_speed = 2;
 
 class Freekazoid :
 	public Enemy

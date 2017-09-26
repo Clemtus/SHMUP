@@ -188,24 +188,20 @@ void Game::Collision() {
 }
 
 
-void Game::Enemy_Generation(float screenW, int level) {
+void Game::Enemy_Generation(int level) {
+	int nombreEnemy = 0;
 	switch (level) {
 	case 1:
-		class Enemy* enemy = Enemy_Spawn(_enemyLevelBoard[1][GetIndexBoardEnemyLevel()]);
+		nombreEnemy = 1;
+		break;
+	case 2:
+		nombreEnemy = 2;
+		break;
+	}
+	for (int index = 0; index < nombreEnemy; index++) {
+		class Enemy* enemy = Enemy_Spawn(_enemyLevelBoard[level][GetIndexBoardEnemyLevel()]);
 		AddEnemyBoard(enemy);
 		IncrementIndexBoardEnemyLevel();
-		break;
-	
-	//case 2:
-	//	class Enemy* enemy1 = Enemy_Spawn(_enemyLevelBoard[2][GetIndexBoardEnemyLevel()]);
-	//	AddEnemyBoard(enemy1);
-	//	IncrementIndexBoardEnemyLevel();
-	//	/*if (GetIndexBoardEnemyLevel() < GetSizeEnemyLevelBoard(2)) {
-	//		class Enemy* enemy2 = Enemy_Spawn(_enemyLevelBoard[2][GetIndexBoardEnemyLevel()]);
-	//		AddEnemyBoard(enemy2);
-	//		IncrementIndexBoardEnemyLevel();
-	//	}*/
-	//	break;
 	}
 }
 Enemy* Game::Enemy_Spawn(EnemyTypeEnum type) {
@@ -242,9 +238,8 @@ void Game::Enemy_Shot()
 	// DEPLACEMENT ENNEMIES
 void Game::Enemy_Management(float screenH, int level)
 {
-	cout << GetEnemyBoard().size() << endl;
-	if ((((_eTimeSpawn.getElapsedTime().asMilliseconds() >= DELAY_SPAWN_ENEMY) || GetEnemyBoard().size() == 0)) && (GetIndexBoardEnemyLevel() < GetSizeEnemyLevelBoard(level))) {
-		Enemy_Generation(screenW, level);
+	if ((((_eTimeSpawn.getElapsedTime().asMilliseconds() >= DELAY_SPAWN_ENEMY) || GetEnemyBoard().size() < 1)) && (GetIndexBoardEnemyLevel() < GetSizeEnemyLevelBoard(level))) {
+		Enemy_Generation(level);
 		_eTimeSpawn.restart();
 	}
 

@@ -74,7 +74,7 @@ public:
 
 	// ENNEMIES
 		// GENERATION ENNEMIES
-	void Enemy_Generation(float screenW, int level);
+	void Enemy_Generation(int level);
 	Enemy* Enemy_Spawn(EnemyTypeEnum type);
 		// GENERATION TIR ENNEMIES
 	void Enemy_Shot();

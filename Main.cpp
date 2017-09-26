@@ -50,10 +50,11 @@ int main(int argc, char *argv[]) {
 
 		game.Collision();
 
-		if (game.GetEnemyBoard().size() == 0){
-			level++;
+		if ((game.GetEnemyBoard().size() < 1) && (game.GetIndexBoardEnemyLevel() == game.GetSizeEnemyLevelBoard(level))){
+			game.GetEnemyBoard().clear();
+			level++; 
+			cout << "LEVEL " << level << endl;
 		}
-
 		// GESTION D'AFFICHAGE
 			// DESSINE LES PROJECTILES
 		auto projectileBoard = game.GetProjectileBoard();

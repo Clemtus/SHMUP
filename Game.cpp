@@ -240,6 +240,10 @@ Enemy* Game::Enemy_Spawn(EnemyTypeEnum type) {
 			enemy = new Polaroid();
 			break;
 		}
+		case POULPI_ENEMY: {
+			enemy = new Poulpi();
+			break;
+		}
 	}
 	return enemy;
 }
@@ -274,8 +278,16 @@ void Game::Enemy_Management(float screenH, int level)
 
 		float posY = (*it)->GetSprite().getPosition().y;
 		
-		if (posY > screenH) {
+		if (posY > (screenH - ((*it)->GetTexture().getSize().y))) {
+			// AJOUT DE L'EXPLOSION
+			Explosion_Generation((*it)->GetSprite().getPosition());
 			it = _enemyBoard.erase(it);
+			// ENLEVE UN POINT DE VIE AU VAISSEAU
+			GetVaisseau()->Taking_Damage(1);
+			if (_objectBoard.size() > 0) {
+				_objectBoard.pop_back();
+			}
+
 		}
 		else {
 			++it;

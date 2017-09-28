@@ -3,8 +3,9 @@
 #include "Enemy.h"
 
 const string TEXTURE_FREEKAZOID = "sprite/Boss.png";
-const int free_health = 1;
+const int free_health = 3;
 const float free_speed = 2;
+const float speedProjectileFree = 7;
 
 class Freekazoid :
 	public Enemy

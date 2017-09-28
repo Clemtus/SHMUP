@@ -9,6 +9,7 @@
 #include "Enumeration.h"
 #include "Freekazoid.h"
 #include "Polaroid.h"
+#include "Poulpi.h"
 #include "Explosion.h"
 #include "Object.h"
 

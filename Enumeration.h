@@ -13,7 +13,8 @@ typedef enum {
 
 typedef enum {
 	FREEKAZOID_ENEMY = 0,
-	POLAROID_ENEMY = 1
+	POLAROID_ENEMY = 1,
+	POULPI_ENEMY = 2
 }EnemyTypeEnum;
 
 // CONSTANTE
@@ -28,6 +29,6 @@ const string TEXTURE_PROJECTILE_SPATIALSHIP = "sprite/ProjectileVso.png";
 const string TEXTURE_LIFE = "sprite/Life.png";
 
 // DEFINITION DES TABLEAUX D'ENNEMIES DES DIFFERENTS NIVEAUX
-const vector<EnemyTypeEnum> enemyLevelOneBoard { POLAROID_ENEMY, POLAROID_ENEMY, POLAROID_ENEMY, POLAROID_ENEMY };
+const vector<EnemyTypeEnum> enemyLevelOneBoard { POULPI_ENEMY, POLAROID_ENEMY, POLAROID_ENEMY, POLAROID_ENEMY };
 const vector<EnemyTypeEnum> enemyLevelTwoBoard { POLAROID_ENEMY, FREEKAZOID_ENEMY, POLAROID_ENEMY, POLAROID_ENEMY, FREEKAZOID_ENEMY, POLAROID_ENEMY, FREEKAZOID_ENEMY };
 const vector<EnemyTypeEnum> enemyLevelTreeBoard { POLAROID_ENEMY };
